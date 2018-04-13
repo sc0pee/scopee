@@ -1,0 +1,289 @@
+
+<html>
+	<head>
+		<title>coffee</title>
+		<link rel="icon" href="wifi.png" type="image/png" sizes="40x40">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		*{padding:0;margin:0;}
+		#front{width:100%;height:100%;background-color:white;display:block;}
+		#one{width:100%;height:100%;background-color:black;display: none;}
+		#two{width:100%;height:100%;background-color:red;display:none;}
+		#items label:hover{color:orange;cursor: pointer;}
+		#home{background-color: #666;color:white;font-family:arial;font-size: 10pt;padding:5px 34px;box-shadow: 2px 2px 8px black}
+		#home:hover{background-color: #444;color:orange;cursor: pointer;transition-delay: 0.1s}
+		#transactBtn{padding:15px 0 0 55px;font-size:10pt;background-color: #666;color:white;font-family: arial;width:10%;height:5%;position: absolute;z-index: 102;left:45%;top:70%;cursor:pointer;box-shadow: 2px 2px 8px black}
+		#transactBtn:hover{color:orange;background-color: #444}
+		#btn1{cursor:pointer}
+		#cal,#form2{font-family: arial;color:white;font-size: 10pt}
+		button:hover{color:red}
+		#total{width:50px;height:20px;border-radius: 8%;background-color: #444;padding: 6px 0 0 13px;cursor: pointer;box-shadow: 1px 1px 6px black}
+		#total:hover{background-color: #666;color:orange;transition-delay: 0.045s}
+		#discount{position: absolute;left:29%;top:355px;color:white;font-family: arial;background-color: blue;opacity:0.4;padding: 6px 20px;height:15%;width:21.8%;line-height: 22px}
+		#ud{background-color: rgba(8, 9, 6, 0.8);margin:2px 2px;padding: 2px 0px 2px 5px;width:40px;border-radius: 7%;box-shadow: 1px 1px 6px white}
+		#ud:hover{color:orange;cursor: pointer;}
+		#pop{width:25%;height:25%;background-color: white;z-index: 101;position: absolute;top:25%;left:29%;display: none}
+		#x{font-size: 30px;font-weight: bold;color:red;padding:0 5PX;cursor: pointer}
+		#x:hover{color:orange;}
+		#promoId{font-family: arial;color:green;padding-left: 25px}
+		#amount{height:25px;}
+	</style>
+	</head>
+	
+	<body onload="glitter(); autoSwipe()">
+		<div style="width:100%;position: fixed;z-index: 120;background-color: white">
+			<img src="wifi.png" style="width:8%; float:left;z-index: -10;position: relative"><h1>WifiCafé</h1>
+			<div style="float:left">	
+
+				<div id="home" onclick="toggle(1)">Transact</div>
+				<div id="home" onclick="toggle(2)">Home</div>
+				
+			</div>
+		</div>
+		<br/><br/><br/><br/>
+		<div id="front">
+			
+			<div id="transactBtn" onclick="toggle(1)">Transact
+				<div style="position: absolute;z-index: 105;top:-350%;font-size: 18pt;width:200%;color:#222;left:-10%;font-family: courier;text-shadow: 2px 3px 3px  white">
+					<spawn>Click "Transact"</spawn><br/><br/>
+					Coffee at its best...<br/>Toast to life
+				</div>
+			</div>
+			
+			<div><img src="front.jpg" style="width:100%"></div>
+		</div>
+		<div id="one">
+			<div><img src="front.jpg" style="position:absolute;width:100%"></div>
+			<div style="float:left;position: absolute;left:0">
+				<!-- <img src="mug.jpg" style="box-shadow: 2px 2px 18px #555;width:120%"> -->
+				<div style="box-shadow: 2px 2px 18px #555;width:120%;"></div>
+			</div>
+			
+			<div style="float:right;right:72%;position:absolute;background-color: #444;padding: 10px;width:25%;height:54%">
+				<form  id="cal" method="get">
+					<br/>
+					<select id = "selected" onchange="pricePopUp()">
+						<option value="Turkish" >Turkish: 1.5 TL</option>			
+						<option value="Americano">Americano: 2 TL</option>			
+						<option value="Filter">Filter: 1 TL</option>			
+					</select> <spawn style="color:orange">Coffee type</spawn>
+					<br/>
+					<div style="border: 1px solid white; padding:7px" onchange="pricePopUp()"><spawn style="color:orange">Sugar</spawn><br/><br/>
+						<div><input type="radio" name="sugar" id="cup1" value="No"><label for="cup1"> None</label></div><br/>
+						<div><input type="radio" name="sugar" id="cup2" value="Low" checked="checked"><label for="cup2"> Low</label></div><br/>
+						<div><input type="radio" name="sugar" id="cup3" value="Average"><label for="cup3"> Average</label></div><br/>
+						<div><input type="radio" name="sugar" id="cup4" value="High"><label for="cup4"> High</label></div>
+					</div><br/>
+					
+					<div id="items">
+						<input type="checkbox" id="milk" value=2 name="mix" onclick="pricePopUp()"><label for="milk"> Milk: 2.00 TL</label><br/><br/>
+					</div>
+					<br/>
+					
+					<div>
+						<a style="color:orange">Number of cups</a><br/>
+						<div style="width:100%;height:10%">
+							<div style="float: left"><input type="number" min=1 placeholder=1 id="amount" value=1 oninput="pricePopUp()"></div>
+							<div style="float: left;font-weight: bold;font-size: 12pt">
+								<div onclick="upDown('up')" id="ud" style="float: left">+</div><div onclick="upDown('down')" id="ud" style="float: left">-</div>
+							</div>
+						</div>
+						<div>
+							<div style="width:150px">
+								<div id="total" onclick="displayPrice()" style="float:left">Display</div>
+								<div id="total" onclick="uncheckAll()" style="float:right;width:70px">Uncheck</div><br/><br/>
+							</div><br/>
+							<!-- <button type="submit" style="width:50px;height:20px">Total</button><br/><br/> -->
+							<p  id="price">1.5 TL</p>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<img name="slide" height="55%" style="position:absolute;right:0;top:85px;opacity: 0.5"><br/>
+			<div id="discount">
+				<label for="diskount"><spawn style="color:red;font-weight: bold">Promo Discount</spawn><br/>Order for 10+ and enjoy 10% Discount<br/>		Your promo: <spawn id="indirim" style="color:green"> 0</spawn> TL 
+				</label>
+			</div>
+			<div style="position: absolute;top:52%;left:29.21%"><input id="diskount" type="checkbox" checked="checked" name="discount" onclick="calculate(2)"></div>
+
+			<div id="pop">
+				<div id="x" onclick="closee()">&times</div>
+
+				<p id="popContent" style="padding-left:25px;font-family: arial;color:grey"></p>
+				
+				<div id="showPrice" style="display:none;font-family:arial;color:red;font-size:10pt;padding-left: 25px;font-weight: bold"></div>
+				<div id="promoId"></div>
+			</div>
+
+
+		</div>
+
+
+		<script> 
+			var checkbox = document.getElementsByName('mix');
+			var promoActive = document.getElementsByName('discount');
+			var form = document.getElementById('cal');
+			var price = 0;
+			var count = 1;
+			var promo = 0;
+			var temp = 1;
+			var cups = 1;
+			var coffeeType = "Turkish";
+			var photos = new Array('mug.jpg','mugs.jpg');
+			var i = 0;
+			var regularPrice;
+			var coffeeTypePrice;
+			
+			function $(name){
+				return document.getElementById(name);
+			}
+
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				calculate()
+			})
+
+			function toggle(page){
+				if(page==1)
+				{
+					$('one').style.display="block";
+					$('front').style.display="none";
+				}
+				else if(page==2)
+				{
+					$('one').style.display="none";
+					$('front').style.display="block";	
+				}
+				
+			}
+			function uncheckAll(){
+				for(var i = 0; i<checkbox.length; i++)
+				{
+					checkbox[i].checked=false;
+				}
+
+
+
+				$('indirim').innerHTML = promo;
+				$('price').innerHTML= coffeeTypePrice + " TL";
+				$('amount').value=1;
+				price=0;
+				promo=0;
+				closee();
+			}
+			function upDown(x){
+				var upOrDown;
+				var temp = $('amount').value;
+				if(x=="up")
+					upOrDown = "+";
+
+				else if(x=="down" && temp>0)
+					upOrDown = "-";
+				cups=eval(temp + upOrDown + 1);
+				$('amount').value=cups;
+				pricePopUp();
+			}
+			function pricePopUp(){
+				var withMilk = "";
+
+				$('showPrice').style.display = "none";
+
+				if(checkbox[0].checked==true)
+						withMilk = " With Milk ";
+					
+				var sugarLevel = form.elements["sugar"].value;
+				$('pop').style.display="block";
+				coffeeType = $('selected').value;
+				$('popContent').innerHTML="Order status:<br/>" + $('amount').value + " " + coffeeType + " coffee" + withMilk + "<br/>Sugar level: " + sugarLevel;
+				
+				calculate();
+			}
+			function displayPrice(){
+				pricePopUp();
+
+				
+				coffeeType = $('selected').value;
+				
+
+				$('showPrice').style.display = "block";
+				$('showPrice').innerHTML = "Grand total:" + "<br/>" + $('price').innerHTML;
+			}
+			function calculate(Q){
+				coffeeType = $('selected').value;
+				
+					
+
+
+				if($('showPrice').style.display == "block")
+					displayPrice();
+
+				for(var i = 0; i<checkbox.length; i++)
+				{
+					if(checkbox[i].checked==true)
+						price+=Number.parseFloat(checkbox[i].value);
+				}
+
+
+
+				count = $('amount').value;
+
+				
+				coffeeType = $('selected').value;
+				if(coffeeType=="Filter") coffeeTypePrice = 1;
+				if(coffeeType=="Turkish") coffeeTypePrice = 1.5;
+				if(coffeeType=="Americano") coffeeTypePrice = 2;
+
+				price += coffeeTypePrice;
+
+
+				if(count >= 1);
+				else count = 1;
+				if(count >= 10 && promoActive[0].checked==true){
+					promo = count*price/10;
+					$('promoId').innerHTML = "Discount applied";
+				}
+				else $('promoId').innerHTML = "";
+				
+				$('indirim').innerHTML = promo;
+				$('price').innerHTML= (count*price-promo) + " TL";
+
+				if(price==0) $('price').innerHTML= (count*price-promo) + ".00 TL";
+
+				price=0;
+				promo=0;
+				
+			}
+			function closee(){
+				$('pop').style.display="none";
+			}
+			var glow = 0;
+			function glitter(){
+				if(glow==0)
+				{
+					$('home').style.backgroundColor="black";
+					glow = 1;
+				}
+				else if(glow==1)
+				{
+					$('home').style.backgroundColor="#666";
+					glow = 0;
+				}
+				setTimeout("glitter()",600);
+			}
+
+			
+			function autoSwipe(){
+
+				document.slide.src=photos[i];
+
+				if(i<photos.length-1)
+					i++;
+				else
+					i=0;
+
+				setTimeout("autoSwipe()",3000);
+			}
+		</script>
+	</body>
+</html>
